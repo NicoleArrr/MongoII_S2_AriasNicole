@@ -257,21 +257,21 @@ Realiza los siguientes ejercicios combinando múltiples etapas:
 
 
 
-1. **Buscar productos con nombre que comience con letra "A" o "P" usando REGEX**
+2. **Buscar productos con nombre que comience con letra "A" o "P" usando REGEX**
 
 ```javascript
 ```
 
 
 
-1. **Agrupar por categoría y obtener: cantidad, promedio de precio, y stock máximo**
+3. **Agrupar por categoría y obtener: cantidad, promedio de precio, y stock máximo**
 
 ```javascript
 ```
 
 
 
-1. **Filtrar productos que tengan al menos un comentario con la palabra “recomendado” o “perfecto”**
+4. **Filtrar productos que tengan al menos un comentario con la palabra “recomendado” o “perfecto”**
 
 ```javascript
 
@@ -279,7 +279,7 @@ Realiza los siguientes ejercicios combinando múltiples etapas:
 
 
 
-1. **Mostrar los 5 usuarios con más comentarios hechos**
+5. **Mostrar los 5 usuarios con más comentarios hechos**
 
 ```javascript
 ```
