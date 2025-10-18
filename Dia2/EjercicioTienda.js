@@ -700,12 +700,11 @@ es dar origen a una lista que distribuida en etapas (diccionarios) estarán
 operadores realizando una operación caracteristica */
 
 // Ejercicio 1
-db.productos.aggregate([{
-    $match: { precio: { $gt: 100 } }
-}, { $unwind: "$comentarios" }, //Especificar una columna de la coleccion con signo $pesos
-{ $group: { _id: "$_id", nombre: { $first: "$nombre" }, totalComentarios: { $sum: 1 } } },
-// siempre los group comienzan por el id porque es el atributo quien permite agrupar
-{ $match: { totalComentarios: { $gt: 3 } } }
+db.productos.aggregate([
+    { $match: { precio: { $gt: 100 } } },
+    { $unwind: "$comentarios" }, //Especificar una columna de la coleccion con signo $pesos
+    { $group: { _id: "$_id", nombre: { $first: "$nombre" }, totalComentarios: { $sum: 1 } } }, // siempre los group comienzan por el id porque es el atributo quien permite agrupar
+    { $match: { totalComentarios: { $gt: 3 } } }
 ]);
 
 // Ejercicio 2
@@ -713,4 +712,8 @@ db.productos.aggregate([{
     $match: { nombre: { $regex: /^[AP]/i } }
 }]);
 
+// Ejercicio 3
+db.productos.aggregate([
+    { $group: { _id: "$categoria", cantidad: { $sum: 1 }, promedioPrecio: { $avg: "$precio" }, stockMaximo: { $max: "$stock" } } }
+]);
 
