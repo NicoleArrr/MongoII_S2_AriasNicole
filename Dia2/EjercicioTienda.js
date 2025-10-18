@@ -708,4 +708,9 @@ db.productos.aggregate([{
 { $match: { totalComentarios: { $gt: 3 } } }
 ]);
 
+// Ejercicio 2
+db.productos.aggregate([{
+    $match: { nombre: { $regex: /^[AP]/i } }
+}]);
+
 
