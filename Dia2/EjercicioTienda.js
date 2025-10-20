@@ -717,3 +717,6 @@ db.productos.aggregate([
     { $group: { _id: "$categoria", cantidad: { $sum: 1 }, promedioPrecio: { $avg: "$precio" }, stockMaximo: { $max: "$stock" } } }
 ]);
 
+//Ejercicio 4
+db.productos.aggregate([{$match: {"comentarios.comentario": {$regex: /recomendado|perfecto/i}}}]);
+
