@@ -720,3 +720,5 @@ db.productos.aggregate([
 //Ejercicio 4
 db.productos.aggregate([{$match: {"comentarios.comentario": {$regex: /recomendado|perfecto/i}}}]);
 
+//Ejercicio 5
+db.productos.aggregate([{$unwind: "$comentarios"}, {$group: {_id: "$comentarios.usuario", cantidadComentarios: {$sum: 1}}}, {$sort: {cantidadComentarios: -1}}, {$limit: 5}]);
