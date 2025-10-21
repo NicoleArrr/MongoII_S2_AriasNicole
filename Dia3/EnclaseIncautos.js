@@ -52,3 +52,27 @@ db.Importe.aggregate([
 ]);
 
 db.municipios.find();
+
+db.Importe.aggregate([
+    {
+        $group: {
+            _id: "$UNIDAD"
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            unidad: "$_id",
+        }
+    },
+    {
+        $merge: {
+            into: "unidades",
+            on: "unidad",
+            whenMatched: "merge",
+            whenNotMatched: "insert"
+        }
+    }
+]);
+
+db.unidades.find()
