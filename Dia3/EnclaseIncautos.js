@@ -76,3 +76,51 @@ db.Importe.aggregate([
 ]);
 
 db.unidades.find()
+
+db.Importe.aggregate([
+    {
+        $addFields: {
+            fechaHecho: {
+                $dateFromString: {
+                    dateString: "$FECHA HECHO",
+                    format: "%d/%m/%Y",
+                    timezone: "UTC",
+                }
+            }
+        }
+    },
+    {
+        $lookup: {
+            from: "unidades",
+            localField: "UNIDAD",
+            foreignField: "unidad",
+            as: "unidadInfo"
+        }
+        /* Desde la colección de unidades bajo la llave unidad
+        llamados los campos UNIDAD ahora tendrán el nombre de unidadInfo */
+    },
+
+    {
+        $set: {
+            idUnidad: {
+                $arrayElemAt: ["$unidadInfo._id", 0]
+            }
+        }
+    },
+
+    {
+        $project: {
+            fecha_hecho: 1,
+            codMunicipio: "$COD_MUNI",
+            cantidad: "$CANTIDAD",
+            idUnidad: 1,
+        }
+    },
+    {
+        $merge: {
+            into: "incautaciones"
+        }
+    }
+]);
+
+db.incautaciones.find();
