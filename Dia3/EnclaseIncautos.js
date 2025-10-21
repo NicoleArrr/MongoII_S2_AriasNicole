@@ -124,3 +124,11 @@ db.Importe.aggregate([
 ]);
 
 db.incautaciones.find();
+
+// Ejercicios propuestos
+// 1.
+
+db.incautaciones.aggregate([
+    {$lookup: {from: "municipios", localField: "codMunicipio", foreignField: "codMunicipio", as: "codigoMunicipio" }},
+    {$unwind: "$codigoMunicipio"},
+    {$match: {"codigoMunicipio.municipio": {$regex: /^La/i}}}, {$group: {_id:"$codigoMunicipio.municipio", cantidadTotal: {$sum:"$cantidad"}}}]);
