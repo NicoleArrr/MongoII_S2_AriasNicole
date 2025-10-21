@@ -129,13 +129,13 @@ db.incautaciones.find();
 // 1.
 
 db.incautaciones.aggregate([
-    { $lookup: { from: "municipios", localField: "codMunicipio", foreignField: "codMunicipio", as: "codigoMunicipio" } },
+    { $lookup: { from: "municipios", localField: "codMuni", foreignField: "codMunicipio", as: "codigoMunicipio" } },
     { $unwind: "$codigoMunicipio" },
     { $match: { "codigoMunicipio.municipio": { $regex: /^La/i } } }, { $group: { _id: 0, cantidadTotal: { $sum: "$cantidad" }, totalMunicipios: { $sum: 1 } } }]);
 
 // 2.
 db.incautaciones.aggregate([
-    { $lookup: { from: "municipios", localField: "codMunicipio", foreignField: "codMunicipio", as: "codigoMunicipio" } },
+    { $lookup: { from: "municipios", localField: "codMuni", foreignField: "codMunicipio", as: "codigoMunicipio" } },
     { $unwind: "$codigoMunicipio" },
     { $match: { "codigoMunicipio.municipio": { $regex: /al$/i } } },
     { $group: { _id: "$codigoMunicipio.municipio", cantidadTotal: { $sum: "$cantidad" }, codDepto: { $first: "$codigoMunicipio.codDepto" } } },
@@ -145,3 +145,13 @@ db.incautaciones.aggregate([
     { $project: { _id: 0, departamento: "$_id", cantidadTotal: 1 } },
     { $sort: { cantidadTotal: -1 } },
     { $limit: 5 }]);
+
+// 3.Por cada año, muestra los 3 municipios con más incautaciones, pero únicamente si su nombre contiene la letra "z".
+
+db.incautaciones.aggregate([
+    { $lookup: { from: "municipios", localField: "codMuni", foreignField: "codMunicipio", as: "codigoMunicipio" } },
+    { $unwind: "$codigoMunicipio" },
+    { $match: { "codigoMunicipio.municipio": { $regex: /z/i } } },
+    { $group: { _id: { anual: { $year: "$fechaHecho" }, municipio: "$codigoMunicipio.municipio" } , cantidadTotal: { $sum: "$cantidad" } }}]);
+
+    
