@@ -12,3 +12,22 @@ db.unidades.createIndex({ unidad: 1 }, { unique: true });
 db.incautaciones.createIndex({ fechaHecho: 1 });
 db.incautaciones.createIndex({ codMunicipio: 1 });
 
+db.Importe.aggregate([
+    {
+        $project: {
+            _id: 0,
+            codDepto: "$COD_DEPTO",
+            depto: "$DEPARTAMENTO"
+        }
+    },
+    {
+        $merge: {
+            into: "departamentos",
+            on: "codDepto",
+            whenMatched: "merge",
+            whenNotMatched: "insert"
+        }
+    }
+]);
+
+db.departamentos.find();
