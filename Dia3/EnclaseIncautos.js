@@ -132,3 +132,9 @@ db.incautaciones.aggregate([
     {$lookup: {from: "municipios", localField: "codMunicipio", foreignField: "codMunicipio", as: "codigoMunicipio" }},
     {$unwind: "$codigoMunicipio"},
     {$match: {"codigoMunicipio.municipio": {$regex: /^La/i}}}, {$group: {_id:"$codigoMunicipio.municipio", cantidadTotal: {$sum:"$cantidad"}}}]);
+
+// 2.
+db.incautaciones.aggregate([
+    {$lookup: {from: "municipios", localField: "codMunicipio", foreignField: "codMunicipio", as: "codigoMunicipio" }},
+    {$unwind: "$codigoMunicipio"},
+    {$match: {"codigoMunicipio.municipio": {$regex: /al$/i}}}, {$group: {_id:"$codigoMunicipio.municipio", cantidadTotal: {$sum:"$cantidad"}}}]);
