@@ -31,3 +31,24 @@ db.Importe.aggregate([
 ]);
 
 db.departamentos.find();
+
+db.Importe.aggregate([
+    {
+        $project: {
+            _id: 0,
+            codDepto: "$COD_DEPTO",
+            codMunicipio: "$COD_MUNI",
+            municipio: "$MUNICIPIO"
+        }
+    },
+    {
+        $merge: {
+            into: "municipios",
+            on: "codMunicipio",
+            whenMatched: "merge",
+            whenNotMatched: "insert"
+        }
+    }
+]);
+
+db.municipios.find();
